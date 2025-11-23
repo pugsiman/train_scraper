@@ -19,6 +19,8 @@ class Field
 
   def format!
     @result = Formatters.send(type, @result)
+  rescue StandardError => e
+    raise FormattingError, "Failed to format result: '#{result}' for field: '#{name}' (#{e.message})"
   end
 
   def validate!
