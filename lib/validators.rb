@@ -21,7 +21,7 @@ module Validators
     end
 
     def array_of_strings(value)
-      value.is_a?(Array) && value.all? { |v| !v.empty? }
+      value.is_a?(Array) && value.all? { |v| !v.empty? && v.is_a?(String) }
     end
 
     def fares(value)
