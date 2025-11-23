@@ -11,7 +11,7 @@ module Validators
       value.is_a?(Integer) && value.positive?
     end
 
-    def changeovers(value)
+    def integer(value)
       value.is_a?(Integer)
     end
 
@@ -28,7 +28,7 @@ module Validators
     end
 
     def currency(value)
-      value.is_a?(String) && value.length == 3
+      value.is_a?(String) && [1, 3].include?(value.length)
     end
 
     def fares(value)
