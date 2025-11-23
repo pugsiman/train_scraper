@@ -6,13 +6,13 @@ RSpec.describe Field do
   subject { described_class.new(:some_field, :string, ->(_page) { ' mock ' }) }
 
   describe '#parse!' do
-    it 'parses HTML element into the result attribute' do
+    it 'parses HTML element and sets the result attribute' do
       expect(subject.parse!(page_mock)).to eq ' mock '
     end
   end
 
   describe 'format!' do
-    it 'formats the parse result' do
+    it 'transforms the parse result' do
       subject.parse!(page_mock)
       expect { subject.format! }.to(change { subject.result }.to('mock'))
     end
