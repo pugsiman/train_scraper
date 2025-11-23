@@ -3,6 +3,7 @@ require 'formatters'
 
 class Field
   class InvalidResultError < StandardError; end
+  class FormattingError < StandardError; end
 
   attr_reader :name, :type, :parser_func
   attr_accessor :result
@@ -25,9 +26,9 @@ class Field
   end
 
   def validate!
-    # we should always implement an apropriate validator
+    # we should always implement an apropriate validator to guarentee data integrity
     unless Validators.respond_to?(type)
-      raise NotImplementedError, "A validator for field #{name} has to be implemented in validators.rb"
+      raise NotImplementedError, "A validator for type #{type} (#{name}) has to be implemented in validators.rb"
     end
 
     valid = Validators.send(type, @result)
