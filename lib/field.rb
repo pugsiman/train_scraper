@@ -1,3 +1,6 @@
+require 'validators'
+require 'formatters'
+
 class Field
   class InvalidResultError < StandardError; end
 
@@ -20,6 +23,6 @@ class Field
 
   def validate!
     valid = Validators.send(type, @result)
-    raise InvalidResultError.new(@result, name) unless valid
+    raise InvalidResultError, "Invalid result: '#{@result}' for field: '#{name}'" unless valid
   end
 end
