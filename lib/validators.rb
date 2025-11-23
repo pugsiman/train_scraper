@@ -1,3 +1,6 @@
+# Basic validators for the scrapped values with the intention of guaranteeing data integrity.
+# A slightly more interesting way of implementing this is injecting the RSpec DSL for explicit value assertions.
+
 module Validators
   class << self
     def string(value)

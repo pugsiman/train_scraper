@@ -1,22 +1,18 @@
+# frozen_string_literal: true
+
 module Scraper
   class Base
     class NoResultsError < StandardError; end
 
-    class << self
-      def find(from, to, departure_at)
-        raise NotImplementedError
-      end
+    def initialize(from, to, departure_at)
+      @from = from
+      @to = to
+      @departure_at = departure_at
     end
 
-    attr_reader :page
-
-    def initialize(url)
-      @page = Mechanize.get(url)
-    end
-
-    def scrape
+    def scrape(resource)
       results = fields.map do |field|
-        field.parse!(page)
+        field.parse!(resource)
         field.format!
         field.validate!
 
@@ -36,6 +32,13 @@ module Scraper
 
     def fields
       []
+    end
+
+    def resource
+      # e.g.:
+      # agent = Mechanize.new
+      # @resource = agent.get(url)
+      raise NotImplementedError
     end
   end
 end

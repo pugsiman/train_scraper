@@ -1,5 +1,7 @@
-require 'validators'
-require 'formatters'
+# frozen_string_literal: true
+
+require './lib/validators'
+require './lib/formatters'
 
 class Field
   class InvalidResultError < StandardError; end
@@ -33,5 +35,7 @@ class Field
 
     valid = Validators.send(type, @result)
     raise InvalidResultError, "Invalid result: '#{@result}' for field: '#{name}'" unless valid
+
+    true
   end
 end
