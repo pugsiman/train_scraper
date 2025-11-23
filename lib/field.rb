@@ -25,6 +25,11 @@ class Field
   end
 
   def validate!
+    # we should always implement an apropriate validator
+    unless Validators.respond_to?(type)
+      raise NotImplementedError, "A validator for field #{name} has to be implemented in validators.rb"
+    end
+
     valid = Validators.send(type, @result)
     raise InvalidResultError, "Invalid result: '#{@result}' for field: '#{name}'" unless valid
   end
