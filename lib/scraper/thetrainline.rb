@@ -44,7 +44,7 @@ module Scraper
 
     def departure_at
       Field.new(__method__, :date, lambda { |segment|
-        segment.search('[data-test="journey-times"] time')[0]['datetime']
+        segment.search('[data-test="journey-times"] @datetime').first.text
       })
     end
 
@@ -56,7 +56,7 @@ module Scraper
 
     def arrival_at
       Field.new(__method__, :date, lambda { |segment|
-        segment.search('[data-test="journey-times"] time')[-1]['datetime']
+        segment.search('[data-test="time-and-duration"] time @datetime').last.text
       })
     end
 
