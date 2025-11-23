@@ -1,4 +1,6 @@
 require 'field'
+require 'pry'
+require 'mechanize'
 
 RSpec.describe Field do
   let(:page_mock) { Mechanize::Page.new(URI('http://example.com/mock.html'), nil, File.read('spec/page_mock.html'), 200, Mechanize.new) }
