@@ -8,7 +8,7 @@ module Validators
     end
 
     def minutes(value)
-      value.is_a?(Integer) && value.positive?
+      integer(value) && value.positive?
     end
 
     def integer(value)
@@ -16,7 +16,7 @@ module Validators
     end
 
     def cents(value)
-      value.is_a?(Integer)
+      integer(value)
     end
 
     def date(value)
@@ -24,11 +24,11 @@ module Validators
     end
 
     def array_of_strings(value)
-      value.is_a?(Array) && value.all? { |v| !v.empty? && v.is_a?(String) }
+      value.is_a?(Array) && value.all? { |v| string(v) }
     end
 
     def currency(value)
-      value.is_a?(String) && [1, 3].include?(value.length)
+      string(value) && [1, 3].include?(value.length)
     end
 
     def fares(value)
