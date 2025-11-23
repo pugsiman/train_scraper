@@ -18,7 +18,7 @@ class Field
   end
 
   def format!
-    # some fields will not require a formatter
+    # some fields can already be assumed to be pre formatted from the source
     @result = Formatters.send(type, @result) if Formatters.respond_to?(type)
   rescue StandardError => e
     raise FormattingError, "Failed to format result: '#{result}' for field: '#{name}' (#{e.message})"

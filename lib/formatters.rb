@@ -3,5 +3,7 @@ module Formatters
     def string(value)
       value.strip
     end
+
+    # ...
   end
 end
