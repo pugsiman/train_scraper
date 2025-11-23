@@ -15,12 +15,12 @@ module Scraper
         departure_station,
         departure_at,
         arrival_station,
-        arrival_at
-        # service_agencies,
-        # duration_in_minutes,
-        # changeovers,
-        # products,
-        # fares
+        arrival_at,
+        service_agencies,
+        duration_in_minutes,
+        changeovers,
+        products,
+        fares
       ]
     end
 
@@ -57,6 +57,47 @@ module Scraper
     def arrival_at
       Field.new(__method__, :date, lambda { |segment|
         segment.search('[data-test="journey-times"] time')[-1]['datetime']
+      })
+    end
+
+    def service_agencies
+      Field.new(__method__, :array_of_strings, lambda { |segment|
+        segment.search('[data-testid="carrier-logo-container"] img @title').map(&:to_s)
+      })
+    end
+
+    def duration_in_minutes
+      Field.new(__method__, :minutes, lambda { |segment|
+        segment.at('[data-test="journey-details-link"] [aria-hidden="true"]').text
+      })
+    end
+
+    def changeovers
+      Field.new(__method__, :integer, lambda { |segment|
+        segment.search('[data-test="journey-details-link"] > span').last.text[/\d+/]
+      })
+    end
+
+    def products
+      Field.new(__method__, :array_of_strings, lambda { |_segment|
+        ['train']
+      })
+    end
+
+    def fares
+      Field.new(__method__, :fares, lambda { |segment|
+        standard = segment.at('[data-test="standard-ticket-price"] > span')&.text&.strip
+        first_class = segment.at('[data-test="first-class-ticket-price"] > span')&.text&.strip
+
+        [[standard, 'standard'], [first_class, 'first class']].map do |element, name|
+          next unless element
+
+          {
+            name: name,
+            price_in_cents: Integer(Float(element[/\d*\.?\d+/]) * 100),
+            currency: element[/[^A-Za-z0-9]+/]
+          }
+        end.compact
       })
     end
   end
