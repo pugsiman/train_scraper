@@ -3,8 +3,9 @@
 module Scraper
   class Thetrainline < Scraper::Base
     def self.find(from, to, departure_at)
-      resource.map do |segment|
-        new(from, to, departure_at).scrape(segment)
+      segments = resource(from, to, departure_at)
+      segments.map do |segment|
+        new.scrape(segment)
       end
     end
 
@@ -29,7 +30,7 @@ module Scraper
     # which could be an HTML page, an API json response, both (as fallbacks), or something else.
     # in this case, directly calling the API seems a lot easier than the web scraper this exercise calls for.
     class << self
-      def resource
+      def resource(*_args)
         uri = URI('http://example.com/page_mock.html')
         page = Mechanize::Page.new(uri, nil, File.read('spec/page_mock.html'), 200, Mechanize.new)
         page.search("[data-test^='eu-journey-row-'][data-test$='-wrapper']")

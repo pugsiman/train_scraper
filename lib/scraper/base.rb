@@ -4,12 +4,6 @@ module Scraper
   class Base
     class NoResultsError < StandardError; end
 
-    def initialize(from, to, departure_at)
-      @from = from
-      @to = to
-      @departure_at = departure_at
-    end
-
     def scrape(resource)
       results = fields.map do |field|
         field.parse!(resource)
