@@ -1,5 +1,5 @@
-# Basic validators for the scrapped values with the intention of guaranteeing data integrity.
-# A slightly more interesting way of implementing this is injecting the RSpec DSL for explicit value assertions.
+# Basic validators for the scraped values with the intention of guaranteeing data integrity.
+# A slightly more interesting way of implementing this could be injecting the RSpec DSL for explicit value assertions.
 
 module Validators
   class << self
@@ -25,6 +25,10 @@ module Validators
 
     def array_of_strings(value)
       value.is_a?(Array) && value.all? { |v| !v.empty? && v.is_a?(String) }
+    end
+
+    def currency(value)
+      value.is_a?(String) && value.length == 3
     end
 
     def fares(value)
