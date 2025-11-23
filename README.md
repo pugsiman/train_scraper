@@ -5,6 +5,7 @@ Highly scalable and reliable scraper architecture for train planning websites an
 ## Instructions
 
 ```bash
+bundle install
 irb
 ```
 
